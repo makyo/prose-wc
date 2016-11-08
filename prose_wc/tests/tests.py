@@ -134,7 +134,7 @@ class TestUpdateFile(TestCase):
                 'words': 47,
             }
         }
-        with patch.object(wc, 'open') as mock_open:
+        with patch('prose_wc.wc.open') as mock_open:
             wc.update_file('jekyll', result, content, 4)
         file_handle = mock_open.return_value.__enter__.return_value
         file_handle.write.assert_called_with("""---

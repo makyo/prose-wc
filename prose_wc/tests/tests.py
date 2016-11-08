@@ -1,5 +1,8 @@
 import json
-from mock import patch
+try:
+    from mock import patch, mock_open
+except ImportError:
+    from unittest.mock import patch, mock_open
 import os
 import sys
 from unittest import TestCase
@@ -134,9 +137,10 @@ class TestUpdateFile(TestCase):
                 'words': 47,
             }
         }
-        with patch.object(wc, 'open') as mock_open:
+        with patch('prose_wc.wc.open', mock_open(), create=True) as \
+                mocked_open:
             wc.update_file('jekyll', result, content, 4)
-        file_handle = mock_open.return_value.__enter__.return_value
+        file_handle = mocked_open.return_value
         file_handle.write.assert_called_with("""---
 counts:
     characters_real: 198

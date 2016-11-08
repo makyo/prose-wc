@@ -3,7 +3,9 @@ python:
   - "2.7"
   - "3.4"
   - "3.5"
-install: "pip install python-coveralls setuptools"
+install:
+  - "pip install python-coveralls"
+  - "pip install --upgrade setuptools"
 script:
   - python setup.py nosetests
 after_success:

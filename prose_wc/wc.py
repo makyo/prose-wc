@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from __future__ import print_function
 import argparse
 import json
 import re
@@ -8,7 +9,7 @@ import yaml
 
 
 def _mockable_print(arg):
-    print arg
+    print(arg)
 
 
 def run():

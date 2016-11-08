@@ -1,5 +1,7 @@
 # prose-wc
 
+[![Build Status](https://travis-ci.org/makyo/prose-wc.svg?branch=master)](https://travis-ci.org/makyo/prose-wc) [![Coverage Status](https://coveralls.io/repos/github/makyo/prose-wc/badge.svg?branch=master)](https://coveralls.io/github/makyo/prose-wc?branch=master)
+
 A prose- and Jekyll-aware wordcount utility.
 
 ## Running

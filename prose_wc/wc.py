@@ -107,7 +107,3 @@ def default_dump(result):
 
 if __name__ == '__main__':
     sys.exit(run())
-
-# TODO:
-# * Remove extra markdown such as images, link urls, etc.
-# * Test

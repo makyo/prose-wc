@@ -24,4 +24,13 @@ setup(
     url='https://github.com/makyo/prose-wc',
     classifiers=[
         'Development Status :: 4 - Beta',
+        'Environment :: Console',
+        'Intended Audience :: Education',
+        'Intended Audience :: End Users/Desktop',
+        'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
+        'Operating System :: OS Independent',
+        'Topic :: Artistic Software',
+        'Topic :: Text Processing',
+        'Topic :: Utilities',
     ])

@@ -52,6 +52,8 @@ You can add wordcount information to your site in some place handy such as at th
     </p>
 {% endif %}
 ```
+
+This would result in something like [this](http://writing.drab-makyo.com/posts/tasting/2016/09/17/teas-of-late/).
      
 You can add wordcounts to posts with a find command like:
 

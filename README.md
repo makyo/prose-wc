@@ -1,8 +1,12 @@
 # prose-wc
 
-[![Build Status](https://travis-ci.org/makyo/prose-wc.svg?branch=master)](https://travis-ci.org/makyo/prose-wc) [![Coverage Status](https://coveralls.io/repos/github/makyo/prose-wc/badge.svg?branch=master)](https://coveralls.io/github/makyo/prose-wc?branch=master)
+[![Build Status](https://travis-ci.org/makyo/prose-wc.svg?branch=master)](https://travis-ci.org/makyo/prose-wc) [![Coverage Status](https://coveralls.io/repos/github/makyo/prose-wc/badge.svg?branch=master)](https://coveralls.io/github/makyo/prose-wc?branch=master) [![PyPI](https://img.shields.io/pypi/v/prose-wc.svg)](https://pypi.python.org/pypi/prose-wc/)
 
 A prose- and Jekyll-aware wordcount utility.
+
+## Installing 
+
+    pip install prose-wc
 
 ## Running
 

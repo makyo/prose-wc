@@ -39,3 +39,20 @@ Running `prose-wc` against a file will generate a series of counts that might be
 You can use [pandoc](http://pandoc.org) to convert your file and pipe it into prose-wc:
 
     pandoc -f latex -t plain my_great_story.tex | prose-wc -
+    
+## In a Jekyll site
+
+You can add wordcount information to your site in some place handy such as at the top of a post in `_layouts/post.html` with:
+
+```liquid
+{% if page.counts %}
+    <p class="text-muted small">
+        {{ page.counts.paragraphs }} {% if page.counts.paragraphs == 1 %}paragraph{% else %}paragraphs{% endif %} &bullet;
+        {{ page.counts.words }} words
+    </p>
+{% endif %}
+```
+     
+You can add wordcounts to posts with a find command like:
+
+    find . \( -name '*.md' -or -name '*.markdown' \) -exec prose-wc -u "{}" \;

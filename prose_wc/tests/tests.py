@@ -58,16 +58,16 @@ class TestProseWC(TestCase):
     def test_output_yaml(self, mock_dump, mock_print):
         wc.prose_wc(wc.setup(['-f', 'yaml', self.plaintext]))
         mock_dump.assert_called_once_with({
-                'counts': {
-                    'file': self.plaintext,
-                    'type': 'md/txt',
-                    'words': 341,
-                    'paragraphs': 7,
-                    '_paragraphs': 'paragraphs',
-                    'characters_total': 1728,
-                    'characters_real': 1388
-                }
-            }, default_flow_style=False, indent=4)
+            'counts': {
+                'file': self.plaintext,
+                'type': 'md/txt',
+                'words': 341,
+                'paragraphs': 7,
+                '_paragraphs': 'paragraphs',
+                'characters_total': 1728,
+                'characters_real': 1388
+            }
+        }, default_flow_style=False, indent=4)
         self.assertTrue(mock_print.called_once)
 
 

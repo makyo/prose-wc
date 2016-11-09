@@ -33,3 +33,9 @@ Accepted filetypes: plaintext, markdown, markdown (Jekyll)
 ```
 
 Running `prose-wc` against a file will generate a series of counts that might be of use.  You can get these counts in a simple, tab-separated format, JSON, or YAML.  If you're working with a Jekyll markdown file, you can also choose to have this data embedded in the frontmatter as YAML.
+
+## Other filetypes
+
+You can use [pandoc](http://pandoc.org) to convert your file and pipe it into prose-wc:
+
+    pandoc -f latex -t plain my_great_story.tex | prose-wc -

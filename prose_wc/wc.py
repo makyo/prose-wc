@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
-from __future__ import print_function
+from __future__ import (
+    print_function,
+    unicode_literals,
+)
 import argparse
 from bs4 import BeautifulSoup
 import json
@@ -22,6 +25,9 @@ words rather than just being wiped out.
 E.g: ellipses should separate words ('a...b' should parse as two words) but
 apostrophes
 """
+
+NEWLINE_PATTERN = re.compile(r'[\r|\n|\r\n]')
+NEWPARA_PATTERN = re.compile(r'[\r|\n|\r\n]{2}')
 
 
 def _mockable_print(arg):
@@ -62,8 +68,8 @@ def setup(argv):
                         help='output format.')
     parser.add_argument('-i', '--indent', type=int, nargs='?', default=4,
                         help='indentation depth (default: 4).')
-    parser.add_argument('file', type=argparse.FileType('r'),
-                        help='file to count (or - for STDIN)')
+    parser.add_argument('file', type=argparse.FileType('rb'),
+                        help='file to parse (or - for STDIN)')
     return parser.parse_args(argv)
 
 
@@ -77,7 +83,7 @@ def prose_wc(args):
         return 1
     if args.split_hyphens:
         INTERSTITIAL_PUNCTUATION.append(re.compile(r'-'))
-    content = args.file.read()
+    content = args.file.read().decode('utf-8')
     filename = args.file.name
     body = strip_frontmatter(content)
     parsed = markdown_to_text(body)
@@ -89,7 +95,7 @@ def prose_wc(args):
         update_file(filename, result, content, args.indent)
     else:
         _mockable_print({
-            'yaml': yaml.dump(result, default_flow_style=False,
+            'yaml': yaml.safe_dump(result, default_flow_style=False,
                               indent=args.indent),
             'json': json.dumps(result, indent=args.indent),
             'default': default_dump(result),
@@ -151,7 +157,7 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
     body = parsed.strip() if parsed else contents.strip()
 
     # Strip the body down to just words
-    words = re.sub(r'\n', ' ', body)
+    words = NEWLINE_PATTERN.sub(' ', body)
     words = re.sub(r'\s+', ' ', words)
     for punctuation in INTERSTITIAL_PUNCTUATION:
         words = re.sub(punctuation, ' ', words)
@@ -164,7 +170,7 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
         'counts': {
             'file': filename,
             'type': fmt,
-            'paragraphs': len(contents.strip().split('\n\n')),
+            'paragraphs': len(NEWPARA_PATTERN.split(contents.strip())),
             'words': len(re.split('\s+', words)),
             'characters_real': len(real_characters),
             'characters_total': len(words),
@@ -195,7 +201,7 @@ def update_file(filename, result, content, indent):
     # Set the frontmatter part backed to the stringified version of the
     # frontmatter object
     parts[1] = '\n{}'.format(
-        yaml.dump(frontmatter, default_flow_style=False, indent=indent))
+        yaml.safe_dump(frontmatter, default_flow_style=False, indent=indent))
     result = '---'.join(parts)
 
     # Write everything back to the file

@@ -23,6 +23,9 @@ E.g: ellipses should separate words ('a...b' should parse as two words) but
 apostrophes
 """
 
+NEWLINE_PATTERN = re.compile(r'[\r|\n|\r\n]')
+NEWPARA_PATTERN = re.compile(r'[\r|\n|\r\n]{2}')
+
 
 def _mockable_print(arg):
     """A print function that can be mocked in tests.
@@ -107,7 +110,7 @@ def markdown_to_text(body):
         Plaintext with all tags and frills removed
     """
     # Turn our input into HTML
-    md = markdown.markdown(body, extensions=[
+    md = markdown.markdown(body.decode('utf-8'), extensions=[
         'markdown.extensions.extra'
     ])
 
@@ -151,7 +154,7 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
     body = parsed.strip() if parsed else contents.strip()
 
     # Strip the body down to just words
-    words = re.sub(r'\n', ' ', body)
+    words = NEWLINE_PATTERN.sub(' ', body)
     words = re.sub(r'\s+', ' ', words)
     for punctuation in INTERSTITIAL_PUNCTUATION:
         words = re.sub(punctuation, ' ', words)
@@ -164,7 +167,7 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
         'counts': {
             'file': filename,
             'type': fmt,
-            'paragraphs': len(contents.strip().split('\n\n')),
+            'paragraphs': len(NEWPARA_PATTERN.split(contents.strip())),
             'words': len(re.split('\s+', words)),
             'characters_real': len(real_characters),
             'characters_total': len(words),

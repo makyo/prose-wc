@@ -103,7 +103,7 @@ class TestWC(TestCase):
         self.assertEqual(result, {
             'counts': {
                 'characters_real': 198,
-                'characters_total': 244,
+                'characters_total': 268,
                 'file': 'non-jekyll',
                 'paragraphs': 1,
                 'type': 'md/txt',
@@ -117,7 +117,7 @@ class TestWC(TestCase):
         self.assertEqual(result, {
             'counts': {
                 'characters_real': 198,
-                'characters_total': 244,
+                'characters_total': 268,
                 'file': 'jekyll',
                 'paragraphs': 1,
                 'type': 'jekyll',

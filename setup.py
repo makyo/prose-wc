@@ -12,7 +12,7 @@ with open('README.rst') as f:
 
 setup(
     name='prose-wc',
-    version='0.3.0',
+    version='0.3.1',
     description='Jekyll-aware prose wordcount utility',
     long_description=long_description,
     author='Madison Scott-Clary',

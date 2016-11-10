@@ -26,9 +26,6 @@ E.g: ellipses should separate words ('a...b' should parse as two words) but
 apostrophes
 """
 
-NEWLINE_PATTERN = re.compile(r'[\r|\n|\r\n]')
-NEWPARA_PATTERN = re.compile(r'[\r|\n|\r\n]{2}')
-
 
 def _mockable_print(arg):
     """A print function that can be mocked in tests.
@@ -157,8 +154,7 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
     body = parsed.strip() if parsed else contents.strip()
 
     # Strip the body down to just words
-    words = NEWLINE_PATTERN.sub(' ', body)
-    words = re.sub(r'\s+', ' ', words)
+    words = re.sub(r'\s+', ' ', body, re.MULTILINE)
     for punctuation in INTERSTITIAL_PUNCTUATION:
         words = re.sub(punctuation, ' ', words)
     words = re.sub(r'[^\w\s]', '', words)
@@ -166,11 +162,18 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
     # Retrieve only non-space characters
     real_characters = re.sub(r'\s', '', words)
 
+    # Count paragraphs in an intelligent way
+    paragraphs = [1 if len(x) == 0 else 0 for x in
+                  contents.strip().splitlines()]
+    for index, paragraph in enumerate(paragraphs):
+        if paragraph == 1 and paragraphs[index + 1] == 1:
+            paragraphs[index] = 0
+
     return {
         'counts': {
             'file': filename,
             'type': fmt,
-            'paragraphs': len(NEWPARA_PATTERN.split(contents.strip())),
+            'paragraphs': sum(paragraphs) + 1,
             'words': len(re.split('\s+', words)),
             'characters_real': len(real_characters),
             'characters_total': len(words),

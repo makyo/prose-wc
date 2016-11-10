@@ -110,7 +110,7 @@ def markdown_to_text(body):
         Plaintext with all tags and frills removed
     """
     # Turn our input into HTML
-    md = markdown.markdown(body.decode('utf-8'), extensions=[
+    md = markdown.markdown(unicode(body).decode('utf-8'), extensions=[
         'markdown.extensions.extra'
     ])
 

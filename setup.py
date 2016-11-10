@@ -6,10 +6,15 @@ from setuptools import (
 )
 
 
+with open('README.rst') as f:
+    long_description = f.read()
+
+
 setup(
     name='prose-wc',
-    version='0.2',
+    version='0.2.1',
     description='Jekyll-aware prose wordcount utility',
+    long_description=long_description,
     author='Madison Scott-Clary',
     author_email='makyo@drab-makyo.com',
     install_requires=['argparse', 'bs4', 'markdown', 'pyyaml'],

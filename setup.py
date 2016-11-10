@@ -12,7 +12,7 @@ setup(
     description='Jekyll-aware prose wordcount utility',
     author='Madison Scott-Clary',
     author_email='makyo@drab-makyo.com',
-    install_requires=['argparse', 'pyyaml'],
+    install_requires=['argparse', 'bs4', 'markdown', 'pyyaml'],
     packages=find_packages(),
     setup_requires=['nose>=1.0'],
     tests_require=['nose', 'coverage', 'mock>=2.0'],

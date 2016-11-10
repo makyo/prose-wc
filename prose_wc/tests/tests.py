@@ -47,6 +47,15 @@ class TestProseWC(TestCase):
         self.assertTrue(mock_print.called_once)
 
     @patch.object(wc, '_mockable_print')
+    @patch.object(wc, 'default_dump')
+    def test_split_hyphens(self, mock_dump, mock_print):
+        with patch.object(wc, 'INTERSTITIAL_PUNCTUATION') as mock_ip:
+            wc.prose_wc(wc.setup(['-S', self.plaintext]))
+        self.assertTrue(mock_ip.append.called_once)
+        self.assertTrue(mock_dump.called_once)
+        self.assertTrue(mock_print.called_once)
+
+    @patch.object(wc, '_mockable_print')
     @patch.object(json, 'dumps')
     def test_output_json(self, mock_dump, mock_print):
         wc.prose_wc(wc.setup(['-f', 'json', self.plaintext]))
@@ -61,7 +70,7 @@ class TestProseWC(TestCase):
             'counts': {
                 'file': self.plaintext,
                 'type': 'md/txt',
-                'words': 341,
+                'words': 338,
                 'paragraphs': 7,
                 '_paragraphs': 'paragraphs',
                 'characters_total': 1728,
@@ -98,12 +107,13 @@ class TestWC(TestCase):
                 'file': 'non-jekyll',
                 'paragraphs': 1,
                 'type': 'md/txt',
-                'words': 47,
+                'words': 46,
             }
         })
 
     def test_jekyll(self):
-        result = wc.wc('jekyll', self.jekyll)
+        result = wc.wc('jekyll', wc.strip_frontmatter(self.jekyll),
+                       parsed=self.plaintext, is_jekyll=True)
         self.assertEqual(result, {
             'counts': {
                 'characters_real': 198,
@@ -111,9 +121,47 @@ class TestWC(TestCase):
                 'file': 'jekyll',
                 'paragraphs': 1,
                 'type': 'jekyll',
-                'words': 47,
+                'words': 46,
             }
         })
+
+
+class TestWCTextSpecificCases(TestCase):
+    def test_hyphens(self):
+        self.assertEqual(
+            wc.wc('', 'a - b')['counts']['words'],
+            2, 'hyphen and two spaces')
+        self.assertEqual(
+            wc.wc('', 'a- b')['counts']['words'],
+            2, 'hyphen and one space')
+        self.assertEqual(
+            wc.wc('', 'a-b')['counts']['words'],
+            1, 'hyphen and no spaces')
+
+    def test_ellipses(self):
+        self.assertEqual(
+            wc.wc('', 'a . . . b')['counts']['words'],
+            2, 'spaced ellipses and two spaces')
+        self.assertEqual(
+            wc.wc('', 'a. . .b')['counts']['words'],
+            2, 'spaced ellipses and no spaces')
+        self.assertEqual(
+            wc.wc('', 'a ... b')['counts']['words'],
+            2, 'unspaced ellipses and two spaces')
+        self.assertEqual(
+            wc.wc('', 'a... b')['counts']['words'],
+            2, 'unspaced ellipses and one space')
+        self.assertEqual(
+            wc.wc('', 'a...b')['counts']['words'],
+            2, 'unspaced ellipses and no spaces')
+
+    def test_apostrophes(self):
+        self.assertEqual(
+            wc.wc('', "Madison's James")['counts']['words'],
+            2, 'possessive apostrophe with s')
+        self.assertEqual(
+            wc.wc('', "James' Madison")['counts']['words'],
+            2, 'possessive apostrophe with no s')
 
 
 class TestUpdateFile(TestCase):

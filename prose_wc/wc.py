@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
-from __future__ import print_function
+from __future__ import (
+    print_function,
+    unicode_literals,
+)
 import argparse
 from bs4 import BeautifulSoup
 import json
@@ -92,7 +95,7 @@ def prose_wc(args):
         update_file(filename, result, content, args.indent)
     else:
         _mockable_print({
-            'yaml': yaml.dump(result, default_flow_style=False,
+            'yaml': yaml.safe_dump(result, default_flow_style=False,
                               indent=args.indent),
             'json': json.dumps(result, indent=args.indent),
             'default': default_dump(result),
@@ -110,7 +113,7 @@ def markdown_to_text(body):
         Plaintext with all tags and frills removed
     """
     # Turn our input into HTML
-    md = markdown.markdown(unicode(body).decode('utf-8'), extensions=[
+    md = markdown.markdown(unicode(body, 'utf-8'), extensions=[
         'markdown.extensions.extra'
     ])
 
@@ -198,7 +201,7 @@ def update_file(filename, result, content, indent):
     # Set the frontmatter part backed to the stringified version of the
     # frontmatter object
     parts[1] = '\n{}'.format(
-        yaml.dump(frontmatter, default_flow_style=False, indent=indent))
+        yaml.safe_dump(frontmatter, default_flow_style=False, indent=indent))
     result = '---'.join(parts)
 
     # Write everything back to the file

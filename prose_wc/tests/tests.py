@@ -63,7 +63,7 @@ class TestProseWC(TestCase):
         self.assertTrue(mock_print.called_once)
 
     @patch.object(wc, '_mockable_print')
-    @patch.object(yaml, 'dump')
+    @patch.object(yaml, 'safe_dump')
     def test_output_yaml(self, mock_dump, mock_print):
         wc.prose_wc(wc.setup(['-f', 'yaml', self.plaintext]))
         mock_dump.assert_called_once_with({

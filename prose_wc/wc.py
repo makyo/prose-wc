@@ -68,8 +68,8 @@ def setup(argv):
                         help='output format.')
     parser.add_argument('-i', '--indent', type=int, nargs='?', default=4,
                         help='indentation depth (default: 4).')
-    parser.add_argument('file', type=argparse.FileType('r'),
-                        help='file to count (or - for STDIN)')
+    parser.add_argument('file', type=argparse.FileType('rb'),
+                        help='file to parse (or - for STDIN)')
     return parser.parse_args(argv)
 
 
@@ -83,7 +83,7 @@ def prose_wc(args):
         return 1
     if args.split_hyphens:
         INTERSTITIAL_PUNCTUATION.append(re.compile(r'-'))
-    content = args.file.read()
+    content = args.file.read().decode('utf-8')
     filename = args.file.name
     body = strip_frontmatter(content)
     parsed = markdown_to_text(body)
@@ -113,7 +113,7 @@ def markdown_to_text(body):
         Plaintext with all tags and frills removed
     """
     # Turn our input into HTML
-    md = markdown.markdown(body.encode('utf-8'), extensions=[
+    md = markdown.markdown(body, extensions=[
         'markdown.extensions.extra'
     ])
 

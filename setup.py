@@ -8,7 +8,7 @@ from setuptools import (
 
 setup(
     name='prose-wc',
-    version='0.1',
+    version='0.2',
     description='Jekyll-aware prose wordcount utility',
     author='Madison Scott-Clary',
     author_email='makyo@drab-makyo.com',

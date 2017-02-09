@@ -61,28 +61,36 @@ Other filetypes
 You can use [pandoc](http://pandoc.org) to convert your file and pipe
 it into prose-wc:
 
-    pandoc -f latex -t plain my_great_story.tex | prose-wc -
+```
+pandoc -f latex -t plain my_great_story.tex | prose-wc -
+```
 
 In a Jekyll site
 ----------------
 
-You can add wordcount information to your site by running ``prose-wc -u
-<file>``, which will update the Jekyll frontmatter to include the results in
-YAML format.  This data can then be included on the page in some place handy such as at the top of a post in ``_layouts/post.html`` with:
+You can add wordcount information to your site by running `prose-wc -u
+<file>`, which will update the Jekyll frontmatter to include the results in
+YAML format.  This data can then be included on the page in some place handy such as at the top of a post in `_layouts/post.html` with:
 
-    {% if page.counts %}
-        <p class="text-muted small">
-            {{ page.counts.paragraphs }} {% if page.counts.paragraphs == 1 %}paragraph{% else %}paragraphs{% endif %} &bullet;
-            {{ page.counts.words }} words
-        </p>
-    {% endif %}
+```
+{% raw %}
+{% if page.counts %}
+    <p class="text-muted small">
+        {{ page.counts.paragraphs }} {% if page.counts.paragraphs == 1 %}paragraph{% else %}paragraphs{% endif %} &bullet;
+        {{ page.counts.words }} words
+    </p>
+{% endif %}
+{% endraw %}
+```
 
 This would result in something like
 [this](http://writing.drab-makyo.com/posts/tasting/2016/09/17/teas-of-late/).
 
 You can add wordcounts to posts with a find command like:
 
-    find . \( -name '*.md' -or -name '*.markdown' \) -exec prose-wc -u "{}" \;
+```
+find . \( -name '*.md' -or -name '*.markdown' \) -exec prose-wc -u "{}" \;
+```
 
 Further information
 -------------------

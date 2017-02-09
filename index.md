@@ -69,10 +69,10 @@ In a Jekyll site
 ----------------
 
 You can add wordcount information to your site by running `prose-wc -u
-<file>`, which will update the Jekyll frontmatter to include the results in
+[file]`, which will update the Jekyll frontmatter to include the results in
 YAML format.  This data can then be included on the page in some place handy such as at the top of a post in `_layouts/post.html` with:
 
-```
+```liquid
 {% raw %}
 {% if page.counts %}
     <p class="text-muted small">

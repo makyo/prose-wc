@@ -159,7 +159,6 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
         words = re.sub(punctuation, ' ', words)
     punct = re.compile('[^\w\s]', re.U)
     words = punct.sub('', words)
-    print(words)
 
     # Retrieve only non-space characters
     real_characters = re.sub(r'\s', '', words)

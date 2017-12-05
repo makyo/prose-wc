@@ -157,7 +157,9 @@ def wc(filename, contents, parsed=None, is_jekyll=False):
     words = re.sub(r'\s+', ' ', body, re.MULTILINE)
     for punctuation in INTERSTITIAL_PUNCTUATION:
         words = re.sub(punctuation, ' ', words)
-    words = re.sub(r'[^\w\s]', '', words)
+    punct = re.compile('[^\w\s]', re.U)
+    words = punct.sub('', words)
+    print(words)
 
     # Retrieve only non-space characters
     real_characters = re.sub(r'\s', '', words)
@@ -209,7 +211,7 @@ def update_file(filename, result, content, indent):
 
     # Write everything back to the file
     with open(filename, 'w') as f:
-        f.write(result)
+        f.write(result.encode('utf-8'))
     print('{} updated.'.format(filename))
 
 

@@ -73,8 +73,8 @@ class TestProseWC(TestCase):
                 'words': 338,
                 'paragraphs': 7,
                 '_paragraphs': 'paragraphs',
-                'characters_total': 1728,
-                'characters_real': 1388
+                'characters_total': 1729,
+                'characters_real': 1389
             }
         }, default_flow_style=False, indent=4)
         self.assertTrue(mock_print.called_once)
@@ -204,7 +204,7 @@ title: Bob Ross, yo!
         Everybody needs a friend. I thought today we would make a happy
         little stream that\'s just running through the woods here. Isn\'t that
         fantastic? You can just push a little tree out of your brush like
-        that. Just let go - and fall like a little waterfall.""")
+        that. Just let go - and fall like a little waterfall.""".encode('utf-8'))
 
 
 class TestDefaultDump(TestCase):

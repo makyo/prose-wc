@@ -209,7 +209,7 @@ def update_file(filename, result, content, indent):
     result = '---'.join(parts)
 
     # Write everything back to the file
-    with open(filename, 'w') as f:
+    with open(filename, 'wb') as f:
         f.write(result.encode('utf-8'))
     print('{} updated.'.format(filename))
 
